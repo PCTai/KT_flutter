@@ -257,51 +257,57 @@ class _ProductListPageState extends State<ProductListPage> {
   }
 
   productSingle(BuildContext context, product) {
-    return Column(
-      children: [
-        TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Icon(Icons.arrow_back)),
-        SizedBox(
-          height: 20,
-        ),
-        Image.network(
-          product.image ?? "",
-          width: 100,
-          height: 150,
-        ),
-        Text(
-          product.title ?? "",
-          style: TextStyle(color: Colors.black, fontSize: 20),
-        ),
-        Text(product.price.toString(),
-            style: TextStyle(color: Colors.black, fontSize: 20)),
-        SizedBox(
-          height: 50,
-        ),
-        TextButton(
-            style: ElevatedButton.styleFrom(
-              primary: Colors.black,
-              minimumSize: const Size.fromHeight(50), // NEW
-            ),
-            onPressed: () {
-              listCart.add(product);
-              var snackBar = SnackBar(
-                  content: Row(
-                children: [
-                  Icon(
-                    Icons.shopping_cart,
-                    color: Colors.white,
-                  ),
-                  Text("Add to cart success")
-                ],
-              ));
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            },
-            child: Text("Add to cart"))
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.arrow_back)),
+          SizedBox(
+            height: 20,
+          ),
+          Image.network(
+            product.image ?? "",
+            width: 100,
+            height: 150,
+          ),
+          Text(
+            product.title ?? "",
+            style: TextStyle(color: Colors.black, fontSize: 20),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(product.price.toString(),
+              style: TextStyle(color: Colors.black, fontSize: 20)),
+          SizedBox(
+            height: 50,
+          ),
+          TextButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.black,
+                minimumSize: const Size.fromHeight(50), // NEW
+              ),
+              onPressed: () {
+                listCart.add(product);
+                var snackBar = SnackBar(
+                    content: Row(
+                  children: [
+                    Icon(
+                      Icons.shopping_cart,
+                      color: Colors.white,
+                    ),
+                    Text("Add to cart success")
+                  ],
+                ));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+              child: Text("Add to cart"))
+        ],
+      ),
     );
   }
 
@@ -312,79 +318,85 @@ class _ProductListPageState extends State<ProductListPage> {
     });
     return Expanded(
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(Icons.arrow_back)),
-            SizedBox(
-              height: 20,
-            ),
-            ...list.map((e) {
-              String price = (e.price.toString());
-              return Container(
-                margin: EdgeInsets.all(20),
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  Image.network(
-                    e.image ?? "",
-                    width: 30,
-                    height: 40,
-                  ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.arrow_back)),
+              SizedBox(
+                height: 20,
+              ),
+              ...list.map((e) {
+                String price = (e.price.toString());
+                return Container(
+                  margin: EdgeInsets.all(20),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.network(
+                          e.image ?? "",
+                          width: 30,
+                          height: 40,
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              e.title ?? "",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 10),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              price ?? "",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 10),
+                            ),
+                          ],
+                        )
+                      ]),
+                );
+              }).toList(),
+              Column(
+                children: [
                   SizedBox(
-                    width: 30,
+                    height: 20,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
                       Text(
-                        e.title ?? "",
-                        style: TextStyle(color: Colors.black, fontSize: 10),
-                      ),
-                      SizedBox(
-                        height: 5,
+                        "Total: ",
+                        style: TextStyle(color: Colors.black, fontSize: 20),
                       ),
                       Text(
-                        price ?? "",
-                        style: TextStyle(color: Colors.black, fontSize: 10),
-                      ),
+                        total.toString(),
+                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      )
                     ],
-                  )
-                ]),
-              );
-            }).toList(),
-            Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Total: ",
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                    Text(
-                      total.toString(),
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      minimumSize: const Size.fromHeight(50), // NEW
-                    ),
-                    onPressed: () {},
-                    child: Text("Check out"))
-              ],
-            )
-          ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  TextButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.black,
+                        minimumSize: const Size.fromHeight(50), // NEW
+                      ),
+                      onPressed: () {},
+                      child: Text("Check out"))
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
