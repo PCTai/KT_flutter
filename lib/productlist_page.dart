@@ -201,6 +201,10 @@ class _ProductListPageState extends State<ProductListPage> {
   }
 
   buildSavePlate(BuildContext context, list) {
+    double total = 0;
+    listCart.forEach((element) {
+      total += double.parse(element.price.toString() ?? '0');
+    });
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -209,7 +213,7 @@ class _ProductListPageState extends State<ProductListPage> {
             TextButton(
                 onPressed: () {
                   setState(() {
-                    typeListImage = false;
+                    typeListImage = true;
                   });
                 },
                 child: Text("List")),
@@ -224,6 +228,15 @@ class _ProductListPageState extends State<ProductListPage> {
         ),
         Row(
           children: [
+            Row(
+              children: [
+                Text("Total: "),
+                Text(
+                  total.toString(),
+                  style: TextStyle(color: Colors.black, fontSize: 20),
+                )
+              ],
+            ),
             TextButton(
                 onPressed: () {
                   Navigator.push(
@@ -261,7 +274,14 @@ class _ProductListPageState extends State<ProductListPage> {
         ),
         Text(product.price.toString(),
             style: TextStyle(color: Colors.black, fontSize: 20)),
+        SizedBox(
+          height: 50,
+        ),
         TextButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.black,
+              minimumSize: const Size.fromHeight(50), // NEW
+            ),
             onPressed: () {
               listCart.add(product);
               var snackBar = SnackBar(
@@ -276,7 +296,7 @@ class _ProductListPageState extends State<ProductListPage> {
               ));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
-            child: Text("add to cart"))
+            child: Text("Add to cart"))
       ],
     );
   }
@@ -302,45 +322,62 @@ class _ProductListPageState extends State<ProductListPage> {
               String price = (e.price.toString());
               return Container(
                 margin: EdgeInsets.all(20),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  Image.network(
+                    e.image ?? "",
+                    width: 30,
+                    height: 40,
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.network(
-                        e.image ?? "",
-                        width: 30,
-                        height: 40,
+                      Text(
+                        e.title ?? "",
+                        style: TextStyle(color: Colors.black, fontSize: 10),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            e.title ?? "",
-                            style: TextStyle(color: Colors.black, fontSize: 10),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            price ?? "",
-                            style: TextStyle(color: Colors.black, fontSize: 10),
-                          ),
-                        ],
-                      )
-                    ]),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        price ?? "",
+                        style: TextStyle(color: Colors.black, fontSize: 10),
+                      ),
+                    ],
+                  )
+                ]),
               );
             }).toList(),
             Column(
               children: [
+                SizedBox(
+                  height: 20,
+                ),
                 Row(
                   children: [
-                    Text("Total: "),
+                    Text(
+                      "Total: ",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
                     Text(
                       total.toString(),
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     )
                   ],
                 ),
-                TextButton(onPressed: () {}, child: Text("Check out"))
+                SizedBox(
+                  height: 20,
+                ),
+                TextButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      minimumSize: const Size.fromHeight(50), // NEW
+                    ),
+                    onPressed: () {},
+                    child: Text("Check out"))
               ],
             )
           ],
