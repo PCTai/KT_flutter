@@ -28,165 +28,169 @@ class _ProductListPageState extends State<ProductListPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(),
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                ...listCategory
-                    .map((e) => TextButton(
-                        onPressed: () {
-                          setState(() {
-                            typeListImage = true;
-                            listProduct.clear();
-                            productProvider.list.forEach((element) {
-                              if (e == element.category) {
-                                listProduct.add(element);
-                              }
-                            });
-                          });
-                        },
-                        child: Text(e.toUpperCase())))
-                    .toList(),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          children: [
+            SizedBox(
+              height: 20,
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          buildSearch(context),
-          SizedBox(
-            height: 20,
-          ),
-          buildSavePlate(context, listCart),
-          SizedBox(
-            height: 20,
-          ),
-          typeListImage
-              ? (Expanded(
-                  child: GridView.count(
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20,
-                  children: [
-                    ...productProvider.list.map((e) {
-                      String price = (e.price.toString());
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ...listCategory
+                      .map((e) => TextButton(
+                          onPressed: () {
+                            setState(() {
+                              typeListImage = true;
+                              listProduct.clear();
+                              productProvider.list.forEach((element) {
+                                if (e == element.category) {
+                                  listProduct.add(element);
+                                }
+                              });
+                            });
+                          },
+                          child: Text(e.toUpperCase())))
+                      .toList(),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            buildSearch(context),
+            SizedBox(
+              height: 20,
+            ),
+            buildSavePlate(context, listCart),
+            SizedBox(
+              height: 20,
+            ),
+            typeListImage
+                ? (Expanded(
+                    child: GridView.count(
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 20,
+                    children: [
+                      ...productProvider.list.map((e) {
+                        String price = (e.price.toString());
 
-                      return SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Image.network(
-                              e.image ?? "",
-                              width: 100,
-                              height: 150,
-                            ),
-                            Text(e.title ?? ""),
-                            Text("$price"),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                productSingle(context, e)),
-                                      );
-                                    },
-                                    child: Text("Details")),
-                                TextButton(
-                                    onPressed: () {
-                                      listCart.add(e);
-                                      var snackBar = SnackBar(
-                                          content: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.shopping_cart,
-                                            color: Colors.white,
-                                          ),
-                                          Text("Add to cart success")
-                                        ],
-                                      ));
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-                                    },
-                                    child: Text("add to cart"))
-                              ],
-                            )
-                          ],
-                        ),
-                      );
-                    }).toList()
-                  ],
-                )))
-              : Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        ...productProvider.list.map((e) {
-                          String price = (e.price.toString());
-                          return Container(
-                            margin: EdgeInsets.all(10),
-                            height: 300,
-                            width: MediaQuery.of(context).size.width,
-                            child: Column(
+                        return SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Image.network(
+                                e.image ?? "",
+                                width: 100,
+                                height: 150,
+                              ),
+                              Text(e.title ?? ""),
+                              Text("$price"),
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.network(
-                                    e.image ?? "",
-                                    width: 100,
-                                    height: 150,
-                                  ),
-                                  Text(e.title ?? ""),
-                                  Text(price ?? ""),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      productSingle(
-                                                          context, e)),
-                                            );
-                                          },
-                                          child: Text("Details")),
-                                      TextButton(
-                                          onPressed: () {
-                                            listCart.add(e);
-                                            var snackBar = SnackBar(
-                                                content: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.shopping_cart,
-                                                  color: Colors.white,
-                                                ),
-                                                Text("Add to cart success")
-                                              ],
-                                            ));
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(snackBar);
-                                          },
-                                          child: Text("add to cart"))
-                                    ],
-                                  )
-                                ]),
-                          );
-                        }).toList()
-                      ],
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  productSingle(context, e)),
+                                        );
+                                      },
+                                      child: Text("Details")),
+                                  TextButton(
+                                      onPressed: () {
+                                        listCart.add(e);
+                                        var snackBar = SnackBar(
+                                            content: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.shopping_cart,
+                                              color: Colors.white,
+                                            ),
+                                            Text("Add to cart success")
+                                          ],
+                                        ));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      },
+                                      child: Text("add to cart"))
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      }).toList()
+                    ],
+                  )))
+                : Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ...productProvider.list.map((e) {
+                            String price = (e.price.toString());
+                            return Container(
+                              margin: EdgeInsets.all(10),
+                              height: 300,
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.network(
+                                      e.image ?? "",
+                                      width: 100,
+                                      height: 150,
+                                    ),
+                                    Text(e.title ?? ""),
+                                    Text(price ?? ""),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        productSingle(
+                                                            context, e)),
+                                              );
+                                            },
+                                            child: Text("Details")),
+                                        TextButton(
+                                            onPressed: () {
+                                              listCart.add(e);
+                                              var snackBar = SnackBar(
+                                                  content: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.shopping_cart,
+                                                    color: Colors.white,
+                                                  ),
+                                                  Text("Add to cart success")
+                                                ],
+                                              ));
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                            },
+                                            child: Text("add to cart"))
+                                      ],
+                                    )
+                                  ]),
+                            );
+                          }).toList()
+                        ],
+                      ),
                     ),
-                  ),
-                )
-        ],
+                  )
+          ],
+        ),
       ),
     );
   }
